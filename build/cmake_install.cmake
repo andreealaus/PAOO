@@ -1,4 +1,4 @@
-# Install script for directory: /Users/andreealaus/Documents/UPT AC CTI RO anul IV/SEM I/PAOO/HW1
+# Install script for directory: /Users/andreealaus/Documents/UPT AC CTI RO anul IV/SEM I/PAOO/HW1/PAOO
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/andreealaus/Documents/UPT AC CTI RO anul IV/SEM I/PAOO/HW1/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/andreealaus/Documents/UPT AC CTI RO anul IV/SEM I/PAOO/HW1/PAOO/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

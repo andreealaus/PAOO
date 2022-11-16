@@ -1,5 +1,5 @@
 CMakeFiles/temaPaoo.dir/main.cpp.o: \
-  /Users/andreealaus/Documents/UPT\ AC\ CTI\ RO\ anul\ IV/SEM\ I/PAOO/HW1/build/main.cpp \
+  /Users/andreealaus/Documents/UPT\ AC\ CTI\ RO\ anul\ IV/SEM\ I/PAOO/HW1/PAOO/build/main.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/iostream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__config_site \

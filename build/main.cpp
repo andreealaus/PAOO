@@ -17,9 +17,8 @@ Doctor::Doctor(const std::string& name)
 std::string Doctor::toString(){
     return "nume doctor: " + theName;
 }
-//nu stiam daca un obiect de tip BOSS a fost initializat cand apelam toString pe el din Employee
-//facand asa stiu ca atunci cand apelez toString se initializeaza un object de tip boss
-//asta e o problema ce se intampla cand am mai multe trasnalation unit-uri, dar am zis sa o exemplic 
+//nu stiam daca un obiect de tip Doctor a fost initializat cand apelam toString pe el din Patient
+//facand asa stim ca atunci cand apelam toString se initializeaza un object de tip Doctor
 
 Doctor& doc(){
     static Doctor doc("Doc Mihai");
