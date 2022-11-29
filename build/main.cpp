@@ -10,38 +10,74 @@ class Doctor{
 };
 
 //the arguments in the initialization list are used as constructor arguments for the various data members
-//copy constructor -item4
 Doctor::Doctor(const std::string& name)
 :theName(name)
-{}
+{
+}
 std::string Doctor::toString(){
     return "nume doctor: " + theName;
-}
-//nu stiam daca un obiect de tip Doctor a fost initializat cand apelam toString pe el din Patient
-//facand asa stim ca atunci cand apelam toString se initializeaza un object de tip Doctor
-
-Doctor& doc(){
-    static Doctor doc("Doc Mihai");
-    return doc;
 }
 
 class Patient{
     public:
-    Patient(const std::string& name, const int patientId);
+    Patient(const std::string& name, const int patientId, Doctor& doc);
+    Patient& operator=(const Patient&);
     std::string toString();
 
     private:
         std::string theName;
         int thePatientId;
+        Doctor *theDoc;
 };
 //the arguments in the initialization list are used as constructor arguments for the various data members
 // -item4
-Patient::Patient(const std::string& name, const int patientId)
+Patient::Patient(const std::string& name, const int patientId, Doctor& doc)
 :theName(name),
-thePatientId(patientId)
+thePatientId(patientId),
+theDoc(&doc)
 {}
+
+//item 11
+Patient&Patient::operator=(const Patient& rhs){
+    theName = rhs.theName;
+    thePatientId = rhs.thePatientId;
+
+    Doctor *dOrig = theDoc;
+    theDoc = new Doctor(*rhs.theDoc);
+    delete dOrig;
+
+    return *this;
+}
 std::string Patient::toString(){
-    return "pacient -> nume: "+theName+ ", id: "+std::to_string(thePatientId)+", doctor -> " + doc().toString();
+    return "patient -> name: "+theName+ ", id: "+ std::to_string(thePatientId) + ", doctor -> " + theDoc->toString();
+}
+
+class UrgentPatient:public Patient{
+    public:
+    UrgentPatient(const std::string& name, const int patientId, Doctor doc, const int priority, const std::string& problemDescription);
+    UrgentPatient& operator=(const UrgentPatient& rhs);
+    std::string toString();
+
+    private:
+    int thePriority;
+    std::string theProblemDescription;
+};
+UrgentPatient::UrgentPatient(const std::string& name, const int patientId, Doctor doc, const int priority, const std::string& problemDescription)
+:Patient(name, patientId, doc),
+thePriority(priority),
+theProblemDescription(problemDescription)
+{}
+
+UrgentPatient&UrgentPatient::operator=(const UrgentPatient& rhs){
+    Patient::operator=(rhs);
+    thePriority = rhs.thePriority;
+    theProblemDescription = rhs.theProblemDescription;
+
+    return *this;
+}
+std::string UrgentPatient::toString(){
+
+    return Patient::toString() + ", priority -> " + std::to_string(thePriority) +", short description -> " + theProblemDescription;
 }
 
 class City{
@@ -63,13 +99,18 @@ Clinic::Clinic(const std::string& name, const int clinicId)
 theClinicId(clinicId)
 {}
 
+//item 10
+Clinic&Clinic::operator=(const Clinic&){
+    return *this;
+}
 
 int main(){
     //item 4
-    int i;
+    int i = 2;
     std::cout<<i<<"\n";
 
-    Patient p1("Ana", 198);
+    Doctor d1("Popescu");
+    Patient p1("Ana", 198, d1);
     std::cout<<(p1.toString())<<"\n";
 
     //item 5
@@ -82,13 +123,22 @@ int main(){
     Patient p2(p1);
     std::cout<<(p2.toString())<<"\n";
 
-    //copy assignment creat de compilator automat
-    Patient p3 = p1;
+    Patient p4("Maria", 200, d1);
+    //copy assignmentul creat de mine
+    Patient p3 = p4;
     std::cout<<(p3.toString())<<"\n";
 
-    //descructorul a fost creat automat de asemenea
+    //descructorul a fost creat automat
     p2.~Patient();
     p3.~Patient();
+    p4.~Patient();
+
+    // //item 12
+    UrgentPatient up1("Delia", 308, (Doctor("Cristescu")), 2, "asthma");
+    std::cout<<up1.toString()<<'\n';
+
+    UrgentPatient up2 = up1;
+    std::cout<<up2.toString()<<'\n';
 
     //item 6
     //copy constr si copy assignment operator sunt declarate private => nu pot fi accesate
