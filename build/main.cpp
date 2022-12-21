@@ -1,6 +1,7 @@
 //git repo: https://github.com/andreealaus/PAOO.git
 #include <iostream>
-
+#include <memory>
+using namespace std;
 class Doctor{
     public:
     //default constructor
@@ -182,6 +183,24 @@ int main(){
     //Clinic c2 = c1;
     //Clinic c3(c1);
     c1.~Clinic();
+
+    //item 13
+    cout<<'\n';
+    auto_ptr<Doctor> d2(createDoctor());
+    d2->setDoctorSpecialization("reumatolog");
+    auto_ptr<Doctor> d3(d2);
+    cout<<d3->getSpecialisation()<<"\n"; //d2 is now NULL -> segmentation fault
+    
+    shared_ptr<Doctor> d4(createDoctor());
+    d4->setDoctorSpecialization("oftalmolog");
+    shared_ptr<Doctor> d5;
+    d5 = d4;
+    cout<<d4->getSpecialisation()<<"\n";       //both f4 and f5 now point to the object
+    cout<<d5->getSpecialisation()<<"\n";        //shared_ptr and auto_ptr release resources in their destructors -> prevent resource leaks
+
+
+    //RAII();
+    //the delete statement isn't reached
 
     return 0;
 }
