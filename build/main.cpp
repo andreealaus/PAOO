@@ -1,21 +1,57 @@
+//git repo: https://github.com/andreealaus/PAOO.git
 #include <iostream>
 
 class Doctor{
     public:
-    Doctor(const std::string& name);
+    //default constructor
+    Doctor(void); 
+    Doctor(const std::string& name, const std::string& spec);
     std::string toString();
+    //Item 13
+    Doctor* createDoctor();
+
+    void setDoctorSpecialization(std::string spec){
+        this->theSpec = spec;
+    }
+    std::string getSpecialisation(){
+        return this->theSpec;
+    }
 
     private:
         std::string theName;
+        std::string theSpec;
 };
 
 //the arguments in the initialization list are used as constructor arguments for the various data members
-Doctor::Doctor(const std::string& name)
-:theName(name)
+Doctor::Doctor(const std::string& name, const std::string& spec)
+:theName(name),
+theSpec(spec)
 {
 }
+//default constructor
+Doctor::Doctor()
+:theName(),
+theSpec()
+{
+}
+
 std::string Doctor::toString(){
     return "nume doctor: " + theName;
+}
+
+//item 13
+Doctor* createDoctor(){
+    return (new Doctor);
+}
+
+//item 13
+int RAII(){
+    Doctor *d = createDoctor();
+    d->setDoctorSpecialization("ortoped");
+    if (d->getSpecialisation() == "") return -1;
+    std::cout<<"got to delete\n";
+    delete d;
+    return 0;
 }
 
 class Patient{
@@ -109,7 +145,7 @@ int main(){
     int i = 2;
     std::cout<<i<<"\n";
 
-    Doctor d1("Popescu");
+    Doctor d1("Popescu", "cardiolog");
     Patient p1("Ana", 198, d1);
     std::cout<<(p1.toString())<<"\n";
 
@@ -134,7 +170,7 @@ int main(){
     p4.~Patient();
 
     // //item 12
-    UrgentPatient up1("Delia", 308, (Doctor("Cristescu")), 2, "asthma");
+    UrgentPatient up1("Delia", 308, (Doctor("Cristescu", "pneumolog")), 2, "asthma");
     std::cout<<up1.toString()<<'\n';
 
     UrgentPatient up2 = up1;
