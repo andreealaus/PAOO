@@ -46,7 +46,7 @@ Doctor* createDoctor(){
 }
 
 //item 13
-int RAII(){
+int noRAII(){
     Doctor *d = createDoctor();
     d->setDoctorSpecialization("ortoped");
     if (d->getSpecialisation() == "") return -1;
@@ -54,6 +54,71 @@ int RAII(){
     delete d;
     return 0;
 }
+
+//item 14
+class DoctorAvailable{
+    private:
+        string theName;
+        bool available = true;
+    public:
+
+    DoctorAvailable(string name){
+        this->theName = name;
+    }
+
+    DoctorAvailable(const DoctorAvailable &d){
+        this->theName = d.theName;
+        this->available = d.available;
+    }
+
+    ~DoctorAvailable(){
+        cout<<"Doctor unavailable deleted"<<"\n";
+    }
+
+    string getName(){
+        return this->theName;
+    }
+
+    bool getAvailability(){
+        return this->available;
+    }
+
+    void setAvailability(bool availability){
+        this->available = availability;
+    }
+
+    void isDoctorAvailable(){
+        if(this->available == false) 
+            cout<<"The doctor "<< this->theName <<" is not available at the moment"<<"\n";
+        else
+            cout<<"The doctor "<<this->theName<<"is available"<<"\n";
+    }
+
+};
+
+void lock(DoctorAvailable &d){
+    d.setAvailability(false);
+}
+
+void unlock(DoctorAvailable &d){
+    d.setAvailability(true);
+}
+
+class LockUnavailableDoctor{
+    private:
+        DoctorAvailable &doctor;
+    
+    public:
+    LockUnavailableDoctor(DoctorAvailable &d):
+    doctor(d){
+        lock(doctor);
+    }
+
+    ~LockUnavailableDoctor(){
+        unlock(doctor);
+    }
+
+};
 
 class Patient{
     public:
@@ -199,8 +264,19 @@ int main(){
     cout<<d5->getSpecialisation()<<"\n";        //shared_ptr and auto_ptr release resources in their destructors -> prevent resource leaks
 
 
-    //RAII();
+    //noRAII();
     //the delete statement isn't reached
+
+    //Item 14
+
+    DoctorAvailable doctorAvailable("Doctorescu");
+    doctorAvailable.isDoctorAvailable();
+    cout<<"\n";
+
+    LockUnavailableDoctor lock(doctorAvailable); //now the doctor should be unavailable
+    doctorAvailable.isDoctorAvailable();
+    cout<<"\n";
+
 
     return 0;
 }
